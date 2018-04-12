@@ -1,0 +1,373 @@
+%% muthesis Class for LaTeX2e.
+%% This is an update of a version that changed many hands, C. Gareth Few has cleaned it up and fixed various things 
+%% with the help of Caroline Alexander, we suffered...so you don't have to.
+
+%% Note that this makes no attempt to deal with multi-volume thesis -
+%% if you do one that long you deserve everything you get.
+%%
+%% 1) Page numbering starts on the title page and is roman (i.e. title
+%%    page is no.i but does not display it), numbering in arabic restarts 
+%%    from 1 on the first page of the introduction (you must have \pagenumbering{arabic} in your first chapter).
+%%
+%% 2) The preface will consist of the following sections in the
+%%       following order!
+%%         i)    Title Page
+%%        ii)    Declaration
+%%       iii)    Abstract
+%%        iv)    Contents page (actually we shall be fancy and have a
+%%               table of contents, list of tables and list of figures.
+%%         v)     Anything else you want, such as acknowledgements
+%%
+%% 3) We set baselinestretch to 1.6 which is close enough to double spacing,
+%%    actually it depends on font size if you are being pedantic but this is 
+%%    an acceptable spacing and nobody notices the difference.%%
+%%
+%% 4) The binding (left hand) margin must be 40mm, other margins must be 20mm, 
+%%    with page numbers falling within these margins. The binding margin is thus 
+%%    rather large, even when you take the binding (normally about 10mm) into account.
+%%    You will not be rejected however for being a little off, this is mainly to 
+%%    safeguard against overlapping text with the binding.
+%%
+%% 5) Bibliography: as long as you are consistent there should be no trouble, you can 
+%%    use the ``alpha'' style for the writing process but I recommend switching to apalike 
+%%    before submission. 
+%%
+%% 6) I have included here an environment called ``chapterabstract'' which puts an abstract in 
+%%    at the start of a chapter but doesn't reset page numbers as the normal environment would.
+%%
+%% 7) Any extra things you want to put in -
+%%    acknowledgements etc, should come after the mandatory preface
+%%    sections and before the first chapter. Unless you have done a ``by publication'' style 
+%%    thesis you may want to think about including any of your publications as appendices. 
+%% 
+%% 8) For more advice you can ask another student who is finishing up and probably dealt with any 
+%%    problems you encounter, or you can (but please try yourselves first) email c.gareth.few@googlemail.com.
+%%    Additions/corrections to this class file or anything else in the thesis bundle on the JHI wiki 
+%%    are welcome, but please make sure you test your update before replacing this.
+
+\ProvidesClass{thesiscls}
+
+\DeclareOption{PhD}{\def\degreetitle{Doctor of Philosophy}}
+\DeclareOption{MSc}{\def\degreetitle{Master of Science}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+
+\ExecuteOptions{MSc}
+
+\ProcessOptions
+
+
+\LoadClass[a4paper]{report}
+
+%% UCLan PhD thesis style -- modifications to the report style
+\long\def\comment#1{}
+\comment{
+%% =======================EXAMPLE OF USE================================================================
+    \documentclass[12pt,MSc]{muthesis}
+    \begin{document}
+    \title{Chemodynamical Simulations of Disk Galaxies}
+    \author{Christopher Gareth Few}
+    \principaladviser{Brad Gibson}
+    \firstreader{Stephanie Courty}
+    \secondreader{Chris Brook}
+ 
+    \beforeabstract
+    \prefacesection{Abstract}
+        You write your abstract here ...
+    \afterabstract
+    \prefacesection{Acknowledgements}
+        I would like to thank Gareth for making this class file so easy to use!
+    \afterpreface
+ 
+    \chapter{Introduction}
+         ... I recommend using the \include method to add chapters, it will save 
+             you much time even if it doesn't quite keep your chapter numbers correct
+    \chapter{Conclusions}
+         ...
+    \appendix
+    \chapter{A Long Proof}
+         ...
+
+    \bibliographystyle{apalike}
+    \bibliography{mybib}
+
+
+Documentation:
+    It sets the margins and interline spacing and
+    disallows page breaks at hyphens.
+
+    The \beforeabstract command creates the title page, a copyright
+    page (default), and a signature page (optional), the tables of
+    contents, tables and figures. The signature page is not mentioned
+    in the rules for submission, and by implication are not allowed.
+
+    The user then includes the preface using the
+    \prefacesection{Abstract} command.
+
+    Next should come an \afterabstract command to insert the declaration.
+
+    Then the user should put preface section(s), using the
+    \prefacesection{section title} command. The first of these should
+    be the statement of education and research, others may be
+    acknowledgements etc.
+
+    The \afterpreface command then  sets things up to start
+    the main body (continuing the sequence of page numbering, but
+    putting page headings etc.).
+
+    Having one of \beforepreface or \afterpreface without the other
+    may cause problems, so u don't do it.
+    
+    The following commands can control what goes in the front matter
+    material:
+    
+        \title{thesis title}
+        \author{author's name}
+        \dept{author's department}
+                - Radio Astronomy if omitted
+        \principaladviser{the principal advisor's name}
+           (or \principaladvisor, if you prefer advisor spelled with o)
+        \firstreader{the first reader's name}
+        \secondreader{the second reader's name}
+        \submitdate{month year in which submitted to GPO}
+                - date LaTeX'd if omitted
+        \copyrightyear{year degree conferred (next year if submitted in Dec.)}
+                - year LaTeX'd (or next year, in December) if omitted
+        \copyrighttrue or \copyrightfalse
+                - produce or don't produce a copyright page (true by default)
+        \figurespagetrue or \figurespagefalse
+                - produce or don't produce a List of Figures page
+                  (true by default)
+        \tablespagetrue or \tablespagefalse
+                - produce or don't produce a List of Tables page
+                  (true by default)
+        \sigpagtrue or \sigpagfalse
+                - produce or don't produce a signature page 
+                  (again false by default, as Manchester theses don't
+                   require this. However, it's left in so that you can
+                   your own `examiners page' if you like!)
+
+        If you set all these to false, then perhaps you don't want any 
+        preface at all, so perhaps you hould leave out both \beforepreface
+        and \afterpreface -).
+
+The example above shows the 12pt substyle being used.  This seems to give
+acceptable looking results, but it may be omitted to get smaller print.
+}
+%% =======================END OF EXAMPLE OF USE================================================================
+
+\oddsidemargin 14.6truemm \evensidemargin 0truemm
+\marginparwidth 40pt \marginparsep 10pt
+\topmargin 0truemm \headsep 10truemm
+\textheight 224truemm \textwidth 150truemm
+
+%% Disallow page breaks at hyphens (this will give some underfull vbox's,
+%% so an alternative is to use \brokenpenalty=100 and manually search
+%% for and fix such page breaks)
+\brokenpenalty=10000
+
+%% Use 1.6 times the normal baseline-to-baseline skip (approx double space)
+\renewcommand{\baselinestretch}{1.6}
+
+%% \author, \title are defined in report; here are the rest of the
+%% front matter defining macros
+%% Note: If you really want, you can define your own macro for, say
+%% \supervisor , just by copying the definitions of \principaladvisor
+%% although here I think we technically have a director of studies, 
+%% a 2nd supervisor and a 2nd 2nd supervisor...
+\def\dept#1{\gdef\@dept{#1}}
+\def\principaladviser#1{\gdef\@principaladviser{#1}}
+\def\advis@r{Advisor} % default spelling---we are English!
+%% Obviously, we could add a \supervisor macro
+\def\principaladvisor#1{\gdef\@principaladviser{#1}\gdef\advis@r{Advisor}}
+\def\firstreader#1{\gdef\@firstreader{#1}}
+\def\secondreader#1{\gdef\@secondreader{#1}}
+\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\copyrightyear#1{\gdef\@copyrightyear{#1}} % \author, \title in report
+\def\@title{}\def\@author{}\def\@dept{Physics, Astronomy and Mathematics}
+\def\@principaladviser{}\def\@firstreader{}\def\@secondreader{}
+\def\@submitdate{\ifcase\the\month\or
+  January\or February\or March\or April\or May\or June\or
+  July\or August\or September\or October\or November\or December\fi
+  \space \number\the\year}
+%% Stanford says that December theses should have the next year as the
+%% copyright year
+\ifnum\month=12
+    \@tempcnta=\year \advance\@tempcnta by 1
+    \edef\@copyrightyear{\number\the\@tempcnta}
+\else
+    \def\@copyrightyear{\number\the\year}
+\fi
+\newif\ifcopyright \newif\iffigurespage \newif\iftablespage \newif\ifsigpage
+\copyrighttrue \figurespagetrue \tablespagetrue \sigpagefalse
+
+%% If you're doing an MSc, I'm sure you can guess which parts to change
+%% below; if not then you shouldn't be doing one.
+\def\titlep{%
+        \thispagestyle{empty}%
+        \null\vskip1in%
+        \begin{center}
+                \LARGE\expandafter{\@title}
+        \end{center}
+        \vfill
+	\begin{center}
+	\@author
+	\end{center}
+        \vfill
+        \begin{center}
+                \sc A thesis submitted in partial fulfilment\\
+                of the requirements for the degree of\\ 
+		\degreetitle
+        \end{center}
+        \vfill
+        \begin{center}
+                \rm  Jeremiah Horrocks Institute for Maths, Physics and Astronomy\\
+		 University of Central Lancashire
+
+        \end{center}
+	\vfill
+        \begin{center}
+                \@submitdate
+        \end{center}
+        \vskip.5in\newpage}
+
+\def\copyrightpage{%
+\prefacesection{Declaration}
+
+The work presented in this thesis was carried out at the  Jeremiah Horrocks Institute for Maths, 
+Physics and Astronomy, University of Central Lancashire.
+
+I declare that while registered as a candidate for the research degree, I have
+not been a registered candidate or enrolled student for another award of the
+University or other academic or professional institution.
+
+I declare that no material contained in the thesis has been used in any other
+submission for an academic award. Data and models used in this thesis that 
+are not my own are clearly cited in the text.
+%% YOU SHOULD CHANGE THIS TO YOUR OWN PARTICULAR DECLARATION IF YOU HAVE ANY SPECIAL COLLABORATIONS
+
+%%        \null\vfill
+%%        \begin{center}
+%%                \Large\copyright\ Copyright \@copyrightyear\\
+%%                by\\
+%%                \@author\\
+%%        \end{center}
+        \vfill\newpage}
+
+\long\def\signature#1{%
+\begin{center}
+\begin{minipage}{4in}
+\parindent=0pt
+I certify that I have read this thesis and that in my opinion
+it is fully adequate, in scope and in quality, as a dissertation for the degree
+of \degreetitle.
+\par
+\vspace{.5in}
+\hbox to 4in{\hfil\shortstack{\vrule width 3in height 0.4pt\\#1}}
+\end{minipage}
+\end{center}}
+
+\def\signaturepage{%
+        \signature{\@principaladviser\\(Principal \advis@r)}
+        \vfill
+        \signature\@firstreader
+        \vfill
+        \signature\@secondreader
+        \vfill
+%% Again, the real format will have to be added here%
+        \begin{center}
+        \begin{minipage}{4in}
+        Approved for the University Committee on Graduate Studies:\par
+        \vspace{.5in}
+        \hbox to 4in{\hfil\shortstack{\vrule width 3in height 0.4pt\\
+                        Dean of Graduate Studies \& Research}}
+        \end{minipage}
+        \end{center}}
+
+\newenvironment{chapterabstract}
+{{\Large\textbf{Abstract}}\begin{quotation}}
+{\end{quotation}}
+ 
+
+\def\beforeabstract{
+        \pagenumbering{roman}
+        \pagestyle{plain}
+        \titlep
+        	\ifcopyright\copyrightpage\fi
+}
+
+\def\afterabstract{
+\newpage
+%% PH Make the copyright come after the declaration...
+        %%\ifcopyright\copyrightpage\fi
+        \ifsigpage\signaturepage\fi
+        \tableofcontents
+        \newpage
+        \iftablespage
+                \addvspace{10pt}
+                \listoftables
+                \newpage
+        \fi
+        \iffigurespage
+                \addvspace{10pt}
+                \listoffigures
+                \newpage
+        \fi}
+	
+
+
+\def\prefacesection#1{%
+        \chapter*{#1}
+        \addcontentsline{toc}{chapter}{#1}}
+
+%% The \addvspace business below is to avoid the extra space that gets put
+%% in the tables of figures and tables between chapters (it makes no sense
+%% now that the numbering is continuous)
+\def\afterpreface{\newpage
+        \pagestyle{fancy}
+        \renewcommand{\headrulewidth}{0pt}
+        \lhead{\MakeUppercase{\chaptername \ \thechapter}}  % left head
+        \rhead{}
+        % topmargin takes a little off the default 1 inch margin to leave a 20mm margin
+%        \topmargin 10mm 
+%        \headsep 10truemm
+%        \oddsidemargin 14.6truemm
+%        \textheight 238truemm
+%        \textwidth 150truemm
+%        \parskip 0.2in
+        }
+
+\pagestyle{empty}
+
+
+%\pagestyle{fancyplain}
+%\lhead{\thechapter}  % left head
+%\chead{Draft: \today} % centre head
+%\lfoot{}
+%\cfoot{\thepage}
+%\rfoot{}
+
+%% This produces the chapter title at the top of each page. It can be 
+%% changed in the obvious way, e.g., \pagestyle{empty} or \pagestyle{plain}
+%%
+
+%%% DPC 15/9/93 Make the bibliography generate an entry in the table
+%%% of contents.  
+\def\thebibliography#1{\chapter*{\bibname\@mkboth
+  {\uppercase{\bibname}}{\uppercase{\bibname}}}%
+  \addcontentsline{toc}{chapter}{\bibname}%
+  \list
+  {\@biblabel{\arabic{enumiv}}}{\settowidth\labelwidth{\@biblabel{#1}}%
+    \leftmargin\labelwidth
+    \advance\leftmargin\labelsep
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+    \def\theenumiv{\arabic{enumiv}}}%
+    \def\newblock{\hskip .11em plus.33em minus.07em}%
+    \sloppy\clubpenalty4000\widowpenalty4000
+    \sfcode`\.=\@m}
+
+\def\endthebibliography{%
+  \def\@noitemerr{\@warning{Empty `thebibliography' environment}}%
+  \endlist}
+
+
