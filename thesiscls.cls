@@ -371,3 +371,18 @@ of \degreetitle.
   \endlist}
 
 
+% ******************************* Declaration **********************************
+% The declaration environment puts a large, bold, centered
+% "Declaration" label at the top of the page.
+
+\newenvironment{declaration}{
+%\cleardoublepage
+\setsinglecolumn
+\chapter*{\centering \Large Declaration}
+\thispagestyle{empty}
+}{
+\flushright
+\@author{}\\
+\@degreedate{}
+\vfill
+}
